@@ -1,0 +1,78 @@
+from tkinter import *
+from qa_list import qa_list
+import random
+
+#players=[]
+#q="0"
+
+class qa:
+	def _init_(self,question,correct_answer,other_choices):
+		self.question = question
+		self.correct_ans = correct_ans
+		self.others = other_choices
+
+def oneplayer():
+	name =Tk()
+	name.geometry("400x400+100+100")
+	l1=Label(name,text = "Enter your name :")
+	nm = Entry(name)
+	nm.grid(row =1,column =1)
+	
+#This part does not give the desired result
+	reg = name.register(list_of_participants)
+	nm.config(validate = "key",validatecommand = (reg,%P))
+	l1.grid(row = 11,column = 0)
+
+#Uptil here
+	a = Button(name,text = "GO", command = maincode).grid(row= 2, column = 2)
+
+	name.update()
+	name.minsize(400,400)
+	name.maxsize(400,400)
+	name.mainloop()
+
+def maincode():
+	questions= qa_list
+	random.shuffle(questions)
+	index = 0
+	while index< 4:
+		qb = Tk()
+		qb.geometry("500x500+100+100")
+	
+		radio =IntVar()
+	
+		qt=Label(qb,text=questions[index].question)
+		qt.pack()
+
+		possible = questions[index].others + [questions[index].correct_ans]
+		random.shuffle(possible)
+		for c in range(len(possible)):
+			options ={ possible[c] : c+1 }
+		for (text,value) in options.items():
+			Radiobutton(qb,text = text,variable = radio,value = value,background = "light grey").pack()
+		label = Label(qb)
+
+		#To check whether the chosen option is correct or not The condition here is inappropriate as radio.get() does not work properly
+		
+
+		if str(radio.get()) != '0':
+			selection = "You did choose an option" + str(radio.get())
+			label.config(text =  selection)
+		else:
+			selection = "You did not choose an option"
+			label.config(text =  selection)
+		label.pack()
+
+	qb.update()
+	qb.minsize(400,400)
+	qb.maxsize(400,400)
+	qb.mainloop()
+
+st=Tk()
+st.geometry("400x400+100+100")
+a=Button(st,text="Start",command=oneplayer)
+a.pack(side="bottom")
+st.update()
+st.minsize(400,400)
+st.maxsize(400,400)
+st.mainloop()
